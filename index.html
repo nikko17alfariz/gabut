@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>For You ❤️</title>
+
+    <style>
+      /* ======================================================
+   GLOBAL
+====================================================== */
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: black;
+        color: white;
+        overflow: hidden;
+      }
+
+      /* ======================================================
+   PAGE 1 — INPUT KODE SUPER CUTE + ANIMATED LOCK
+====================================================== */
+      #lock-screen {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(160deg, #ff9a9e, #ffc8f1, #ffd6e8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 9999;
+        animation: fadeIn 1s ease-out;
+        overflow: hidden;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          filter: blur(10px);
+        }
+        to {
+          opacity: 1;
+          filter: blur(0);
+        }
+      }
+
+      /* Floating hearts bg */
+      #lock-screen::after {
+        content: "💗 💕 💖 💞";
+        position: absolute;
+        bottom: -30px;
+        font-size: 48px;
+        opacity: 0.15;
+        width: 100%;
+        text-align: center;
+        animation: floatHearts 8s linear infinite;
+      }
+
+      @keyframes floatHearts {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-140px);
+          opacity: 0.05;
+        }
+      }
+
+      /* CARD */
+      .lock-card {
+        width: 85%;
+        max-width: 360px;
+        background: rgba(255, 255, 255, 0.32);
+        backdrop-filter: blur(14px);
+        border-radius: 25px;
+        padding: 38px 35px 40px;
+        box-shadow: 0 15px 40px rgba(255, 0, 120, 0.25);
+        animation: popIn 0.8s ease-out;
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.85);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* ANIMATED LOCK ICON */
+      .lock-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+        animation: lockPulse 1.5s infinite ease-in-out;
+      }
+
+      @keyframes lockPulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Title */
+      .lock-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #d93c82;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      }
+
+      .lock-sub {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 25px;
+      }
+
+      /* INPUT */
+      input {
+        width: 90%;
+        padding: 14px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: 2px solid #ff77b6;
+        background: rgba(255, 255, 255, 0.85);
+        outline: none;
+        transition: 0.25s;
+        display: block;
+        margin: 0 auto;
+      }
+
+      input:focus {
+        border-color: #ff3d97;
+        box-shadow: 0 0 10px rgba(255, 80, 160, 0.4);
+      }
+
+      /* BUTTON */
+      .btn-enter {
+        width: 100%;
+        margin-top: 18px;
+        padding: 14px;
+        font-size: 17px;
+        font-weight: bold;
+        background: #ff3d97;
+        color: white;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        transition: 0.25s;
+        box-shadow: 0 6px 15px rgba(255, 0, 140, 0.3);
+      }
+
+      .btn-enter:hover {
+        background: #ff177e;
+        transform: translateY(-2px);
+      }
+
+      .btn-enter:active {
+        transform: scale(0.95);
+      }
+
+      /* ERROR */
+      #error {
+        margin-top: 12px;
+        font-size: 14px;
+        color: #ff2b2b;
+        font-weight: bold;
+        opacity: 0;
+        transition: 0.3s;
+      }
+
+      .shake {
+        animation: shakeAnim 0.45s;
+      }
+
+      @keyframes shakeAnim {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        50% {
+          transform: translateX(8px);
+        }
+        75% {
+          transform: translateX(-4px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      /* ======================================================
+   HEARTBEAT LOADING SCREEN
+====================================================== */
+      #loading-heart {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        flex-direction: column;
+        animation: fadeIn 0.5s;
+      }
+
+      .loading-heart-icon {
+        font-size: 95px;
+        animation: heartBeat 1.2s infinite ease-in-out;
+      }
+
+      @keyframes heartBeat {
+        0% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scale(1.35);
+        }
+        60% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .loading-text {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #ff7ab8;
+      }
+
+      /* ======================================================
+   SLIDESHOW POLAROID + STICKY TAPE
+====================================================== */
+      .slide {
+        display: none;
+        position: fixed;
+        inset: 0;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .polaroid {
+        width: 88%;
+        max-width: 440px;
+        padding: 18px 18px 40px;
+        background: white;
+        border-radius: 12px;
+        position: relative;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25),
+          0 18px 35px rgba(0, 0, 0, 0.2), 0 28px 50px rgba(0, 0, 0, 0.15);
+        transform: rotate(-2deg);
+        animation: polaroidIn 1.2s ease-out;
+      }
+
+      @keyframes polaroidIn {
+        from {
+          opacity: 0;
+          transform: scale(1.15) rotate(-6deg);
+          filter: blur(6px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(-2deg);
+          filter: blur(0);
+        }
+      }
+
+      /* Sticky Tape */
+      .sticky-tape {
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%) rotate(-3deg);
+        width: 120px;
+        height: 35px;
+        background: rgba(255, 245, 180, 0.78);
+        border-radius: 6px;
+        backdrop-filter: blur(2px);
+        background-image: repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.4) 0px,
+          rgba(255, 255, 255, 0.4) 6px,
+          rgba(255, 245, 180, 0.78) 6px,
+          rgba(255, 245, 180, 0.78) 12px
+        );
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18),
+          inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      }
+
+      .polaroid img {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      /* TYPEWRITER */
+      #typewriter {
+        position: fixed;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+        font-size: 22px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+      }
+
+      /* Falling Hearts */
+      .heart {
+        position: fixed;
+        top: -10px;
+        font-size: 20px;
+        color: pink;
+        animation: fall linear forwards;
+        opacity: 0.8;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+        }
+      }
+
+      /* ======================================================
+   ENDING PAGE CUTE
+====================================================== */
+      #ending-screen {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(160deg, #ffd0f3, #ffe4fa, #ffd9ec);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        z-index: 99999;
+        animation: fadeEnding 1.5s ease-out forwards;
+      }
+
+      @keyframes fadeEnding {
+        from {
+          opacity: 0;
+          filter: blur(10px);
+        }
+        to {
+          opacity: 1;
+          filter: blur(0);
+        }
+      }
+
+      .ending-text {
+        font-size: 26px;
+        color: #d63384;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .sub-text {
+        font-size: 16px;
+        color: #82275f;
+        opacity: 0.8;
+        margin-bottom: 25px;
+      }
+
+      .ending-btn {
+        padding: 12px 25px;
+        background: #ff4fa8;
+        color: white;
+        border-radius: 12px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 0, 120, 0.4);
+        transition: 0.25s;
+      }
+
+      .ending-btn:hover {
+        background: #ff2c88;
+        transform: translateY(-2px);
+      }
+
+      #ending-note {
+        margin-top: 20px;
+        font-size: 17px;
+        opacity: 0;
+        transition: 0.5s;
+        color: #ad2d78;
+      }
+
+      .ending-heart {
+        position: absolute;
+        font-size: 22px;
+        animation: floatUp 4s linear infinite;
+        opacity: 0.6;
+      }
+
+      @keyframes floatUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0.6;
+        }
+        to {
+          transform: translateY(-120px);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ======================================================
+     PAGE 1 — INPUT KODE SUPER CUTE
+====================================================== -->
+    <div id="lock-screen">
+      <div class="lock-card" id="lockCard">
+        <div class="lock-icon">🔒</div>
+
+        <div class="lock-title">Masukkan Kode Rahasia 💌</div>
+        <div class="lock-sub">Biar bisa buka kenangan spesial ini ✨</div>
+
+        <input type="password" id="code" placeholder="Masukkan kode..." />
+        <button class="btn-enter" onclick="checkCode()">Masuk 💗</button>
+
+        <div id="error">Kode salah 😭</div>
+      </div>
+    </div>
+
+    <!-- HEARTBEAT LOADING -->
+    <div id="loading-heart">
+      <div class="loading-heart-icon">💗</div>
+      <div class="loading-text">Tunggu sebentar ya…</div>
+    </div>
+
+    <!-- MUSIC -->
+    <audio id="music" loop>
+      <source src="lagu.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- ======================================================
+     SLIDESHOW
+====================================================== -->
+    <div class="slide">
+      <div class="polaroid">
+        <div class="sticky-tape"></div>
+        <img src="1.png" />
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="polaroid">
+        <div class="sticky-tape"></div>
+        <img src="2.png" />
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="polaroid">
+        <div class="sticky-tape"></div>
+        <img src="3.png" />
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="polaroid">
+        <div class="sticky-tape"></div>
+        <img src="4.png" />
+      </div>
+    </div>
+
+    <div id="typewriter"></div>
+
+    <!-- ======================================================
+     ENDING SCREEN
+====================================================== -->
+    <div id="ending-screen">
+      <div class="ending-text">Terima kasih udah lihat semuanya 💗</div>
+      <div class="sub-text">Aku cuma mau bilang satu hal…</div>
+
+      <button class="ending-btn" onclick="showEndingNote()">
+        Klik di sini ✨
+      </button>
+
+      <div id="ending-note">
+        Aku sayang kamu… lebih dari yang kamu pikir 🥺💗
+      </div>
+    </div>
+
+    <script>
+      /* ======================================================
+   INPUT KODE
+====================================================== */
+      function checkCode() {
+        const input = document.getElementById("code").value;
+        const card = document.getElementById("lockCard");
+        const error = document.getElementById("error");
+        const correct = "SAYANG123";
+
+        if (input === correct) {
+          document.getElementById("lock-screen").style.display = "none";
+
+          // SHOW LOADING HEARTBEAT
+          document.getElementById("loading-heart").style.display = "flex";
+
+          setTimeout(() => {
+            document.getElementById("loading-heart").style.display = "none";
+            startShow();
+          }, 1900);
+        } else {
+          error.style.opacity = 1;
+          card.classList.add("shake");
+          setTimeout(() => card.classList.remove("shake"), 450);
+        }
+      }
+
+      /* ======================================================
+   SLIDESHOW
+====================================================== */
+      let index = 0;
+
+      function startShow() {
+        document.getElementById("music").play();
+        showSlide();
+        startTypewriter();
+        setInterval(showSlide, 3500);
+        setInterval(createHeart, 250);
+      }
+
+      function showSlide() {
+        let slides = document.querySelectorAll(".slide");
+
+        if (index >= slides.length) {
+          setTimeout(showEndingScreen, 1000);
+          return;
+        }
+
+        slides.forEach((s) => (s.style.display = "none"));
+        slides[index].style.display = "flex";
+        index++;
+      }
+
+      /* ======================================================
+   TYPEWRITER
+====================================================== */
+      const messages = [
+        "Aku simpan semua kenangan ini untuk kamu ❤️",
+        "Karena kamu itu… lebih berarti dari yang kamu kira.",
+        "Makasih udah hadir walau sebentar, tapi membekas 🥺",
+        "Dan semua ini… cuma buat kamu.",
+      ];
+
+      let msgIndex = 0;
+      let charIndex = 0;
+
+      function startTypewriter() {
+        write();
+      }
+
+      function write() {
+        if (msgIndex >= messages.length) msgIndex = 0;
+
+        let text = messages[msgIndex];
+        document.getElementById("typewriter").innerHTML = text.substring(
+          0,
+          charIndex
+        );
+
+        if (charIndex < text.length) {
+          charIndex++;
+          setTimeout(write, 70);
+        } else {
+          charIndex = 0;
+          msgIndex++;
+          setTimeout(write, 2000);
+        }
+      }
+
+      /* Falling Hearts */
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }
+
+      /* ======================================================
+   ENDING PAGE
+====================================================== */
+      function showEndingScreen() {
+        const ending = document.getElementById("ending-screen");
+        ending.style.display = "flex";
+
+        for (let i = 0; i < 15; i++) {
+          const h = document.createElement("div");
+          h.className = "ending-heart";
+          h.innerHTML = "💖";
+          h.style.left = Math.random() * 100 + "vw";
+          h.style.bottom = "-30px";
+          h.style.animationDuration = 3 + Math.random() * 3 + "s";
+          ending.appendChild(h);
+        }
+      }
+
+      function showEndingNote() {
+        document.getElementById("ending-note").style.opacity = 1;
+      }
+    </script>
+  </body>
+</html>
